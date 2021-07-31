@@ -1,0 +1,46 @@
+import pygame, sys
+
+from pygame.locals import *
+pygame.init()
+screen = pygame.display.set_mode((600,400))
+
+WHITE = (255,255,255)
+BLACK = (0,0,0)
+
+FPS = pygame.time.Clock()
+size = screen.get_size()
+
+hw , hh = (size[0]//2,size[1]//2)
+hw2 , hh2 = (size[0]//2,size[1]//2)
+
+class Line:
+    def __init__(self,sp,ep,t,c):
+        self.sp = sp
+        self.ep = ep
+        self.t = t
+        self.c = c
+
+line1 = Line((hw,hh),(hw+300,2*hh-600),5,(255,0,0))
+
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+
+    screen.fill(WHITE)
+    pygame.draw.line(screen, BLACK, (0,hh), (size[0],hh),1)
+    pygame.draw.line(screen, BLACK, (hw,0), (hw,size[1]),1)
+    
+    pygame.draw.line(screen, line1.c, line1.sp, line1.ep, line1.t)
+    
+    for x in range(1000):
+        line2 = Line((hw2,hh2),(hw2+x,hh2-(x*x)),5,(255,0,0))
+        
+        pygame.draw.line(screen, line2.c, line2.sp, line2.ep, line2.t)
+
+        hw2 = hw2 + x
+        hh2 = hh2 - (x*x)
+        
+    pygame.display.update()
+    FPS.tick(24)
