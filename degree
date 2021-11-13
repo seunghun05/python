@@ -1,0 +1,49 @@
+import pygame, sys
+from pygame.locals import *
+from math import sin,cos,radians
+
+pygame.init()
+screen=pygame.display.set_mode((600,400))
+WHITE=(255,255,255); BLACK = (0,0,0)
+FPS = pygame.time.Clock()
+size = screen.get_size()
+
+ox,oy = (size[0]//2,size[1]//2)
+
+class Ball:
+    def __init__(self):
+        self.dirc = 30
+        self.dx = int(10*sin(radians(self.dirc)))
+        self.dy = int(10*cos(radians(self.dirc)))
+        self.x = size[0]//2
+        self.y = size[1]//2
+        self.r = 10
+        self.xg = 0
+        self.yg = 0
+        
+    def setNextPosition(self):
+        self.x += self.dx 
+        self.y -= self.dy 
+        
+
+    def draw(self):
+        pygame.draw.circle(screen,BLACK,(self.x,self.y),self.r,0)
+
+B = Ball()
+
+while 1:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+
+    screen.fill(WHITE)
+
+    pygame.draw.line(screen,BLACK,(0,oy),(size[0],oy),1)
+    pygame.draw.line(screen,BLACK,(ox,0),(ox,size[1]),1)
+    
+    B.setNextPosition()
+    B.draw()
+
+    pygame.display.update()
+    FPS.tick(24)
